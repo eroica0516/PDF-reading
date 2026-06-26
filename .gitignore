@@ -1,0 +1,36 @@
+# ── Virtual environment ───────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── Data folders (not committed — users populate these locally) ───────────────
+# Using 'Folder/*' rather than 'Folder/' so the !.gitkeep negation can work
+# (Git ignores negation rules inside a directory-level '/' pattern).
+Input/*
+!Input/.gitkeep
+Input NonEN/*
+!Input NonEN/.gitkeep
+Output/*
+!Output/.gitkeep
+
+# ── Runtime artefacts ─────────────────────────────────────────────────────────
+extractor.log
+
+# ── Python cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── OS / IDE noise ────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo

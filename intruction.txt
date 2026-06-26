@@ -1,0 +1,19 @@
+I have to extract the annual impact cost of each fund from the PDFs. For each PDF, there could be more than one values for annual impact cost for different holding years. List them all out accordingly.
+I also need ISIN (the fund ID) for each PDF so that I can differentiate the funds.
+
+All input file is in /Input folder
+export a csv with 5 columns: 'ISIN', 'Fund Name','Holding Year', 'Annual Impact Cost' , 'input file name'
+
+Use python to do this and create an venv and requreiment.txt and make it run and executable for any other environment.
+
+
+The expected output file is the combined 'Output.csv' with all the extracted values accordingly.
+
+
+I need to make sure that the entire process is efficient and can be scaled to handle 800+ pdfs, the files in the input folder now are just some samples for us to work on.
+
+I also need to ensure that the code is well-documented and easy to understand. 
+
+
+
+
