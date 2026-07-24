@@ -116,8 +116,9 @@ FUND_NAME_PATTERNS: list[tuple[re.Pattern, str]] = [
 # Decimal separators may be either '.' or ',' in European documents.
 
 HOLD_YEAR_PATTERNS: list[tuple[re.Pattern, str]] = [
-    # EN — "If you exit after 1 Year" / "If you exit after 5.0 Years"
-    (re.compile(r'If you exit after (\d+(?:[.,]\d+)?)\s+Years?', re.IGNORECASE), 'EN'),
+    # EN — "If you exit after 1 Year" / "If you cash in after 5 Years"
+    # Both phrasings appear in English PRIIPs KIDs depending on the issuer.
+    (re.compile(r'If you (?:exit|cash in) after (\d+(?:[.,]\d+)?)\s+Years?', re.IGNORECASE), 'EN'),
 
     # NL (Dutch) — "Als u uitstapt na 1 jaar" / "na 8 jaar"
     (re.compile(r'Als u uitstapt na (\d+(?:[.,]\d+)?)\s+jaar', re.IGNORECASE), 'NL'),
@@ -166,14 +167,21 @@ HOLD_YEAR_PATTERNS: list[tuple[re.Pattern, str]] = [
 #
 # Observed ACI line formats per language:
 #   EN  — "Annual Cost Impact (*) 3.40% 1.80%"
+#   EN  — "Impact on return (RIY) per year - - 2.48%"
 #   NL  — "Effect van de kosten per jaar (*) 2.9% 2.9% per jaar"
 #   ES  — "Incidencia anual de los costes (*) 3,6% 2,5 % cada año"
 #   IT  — "Impatto sul rendimento (RIY) per anno 4,24% 2,82% 2,54%"
 #   SV  — "Kostnadseffekten per år ..." (with percentage values on same line)
 
 ACI_LINE_PATTERNS: list[tuple[re.Pattern, str]] = [
-    # EN
+    # EN — "Annual Cost Impact (*) 3.40% 1.80%"
     (re.compile(r'Annual Cost Impact\b[^\n]*', re.IGNORECASE), 'EN'),
+
+    # EN (RIY variant) — "Impact on return (RIY) per year - - 2.48%"
+    # Many BlackRock / closed-ended fund KIDs use this phrasing instead of
+    # "Annual Cost Impact".  Must appear before the generic RIY fallback so
+    # that the full line (including all trailing percentages) is captured.
+    (re.compile(r'Impact on return \(RIY\) per year\b[^\n]*', re.IGNORECASE), 'EN'),
 
     # NL — "Effect van de kosten per jaar (*) 2.9% 2.9% per jaar"
     (re.compile(r'Effect van de kosten per jaar\b[^\n]*', re.IGNORECASE), 'NL'),
